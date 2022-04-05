@@ -2,6 +2,7 @@
 #include "Windows/Application.h"
 #include "Graphics/EDXGui.h"
 #include "Windows/Bitmap.h"
+#include "Core/Memory.h"
 
 #include "Graphics/OpenGL.h"
 
@@ -21,7 +22,7 @@ void OnInit(Object* pSender, EventArgs args)
 	EDXGui::Init();
 
 	int channel;
-	string c = Application::GetBaseDirectory();
+	std::string c = Application::GetBaseDirectory();
 	c += "\\Background.jpg";
 	gImage = (_byte*)Bitmap::ReadFromFile<Color4b>(c.c_str(), &gWidth, &gHeight, &channel);
 	assert(gImage);
@@ -42,7 +43,7 @@ void OnRender(Object* pSender, EventArgs args)
 
 	EDXGui::Text("Right docked dialog");
 
-	static string buf("");
+	static std::string buf("");
 	EDXGui::Text(buf.c_str());
 	if (EDXGui::Button("Button 1"))
 		buf = "Button 1 clicked";
@@ -87,8 +88,8 @@ void OnRender(Object* pSender, EventArgs args)
 	EDXGui::ComboBox("Combo box", items, 3, selected);
 
 
-	static string textBuf1("Text field 1");
-	static string textBuf2("Text field 2");
+	static String textBuf1("Text field 1");
+	static String textBuf2("Text field 2");
 	EDXGui::InputText(textBuf1);
 	EDXGui::InputText(textBuf2);
 
@@ -108,7 +109,7 @@ void OnRender(Object* pSender, EventArgs args)
 		EDXGui::BeginDialog(LayoutStrategy::Floating);
 		{
 			EDXGui::Text("Multiple dialogs supported");
-			static string multiLineText = "Multiple lines of texts and wrapped texts supported:\n";
+			static std::string multiLineText = "Multiple lines of texts and wrapped texts supported:\n";
 
 			if (EDXGui::Button("Add Texts"))
 				multiLineText += "Adding more texts! ";
@@ -157,7 +158,7 @@ void OnKeyboardEvent(Object* pSender, KeyboardEventArgs args)
 void OnRelease(Object* pSender, EventArgs args)
 {
 	EDXGui::Release();
-	SafeDeleteArray(gImage);
+	Memory::SafeDeleteArray(gImage);
 }
 
 
